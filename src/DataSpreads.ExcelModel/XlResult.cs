@@ -23,8 +23,8 @@ namespace Xl {
         public XlResult(TResult value)
         {
             // TODO interesting if this pattern avoids Func allocation
-            // the strct should be stored somewhere, it CLR smart enough
-            // to keep it without boxing
+            // the struct should be stored somewhere, is CLR smart enough
+            // to keep it without boxing?
             var identity = new IdentityResult<TResult>(value);
             _func = identity.Call; // was () => value; this obviously captures value and will allocate
             _tcs = new TaskCompletionSource<TResult>();
@@ -38,7 +38,7 @@ namespace Xl {
             // f is queued as macro. Then GetResult() of this instance is
             // called and since we are now on the main thread, it will return
             // instantly, and then we could access its result many times
-            // and no intermedia COM objects are created
+            // and no intermediate COM objects are created
             var th = this;
             Func<TCont> f = () => {
                 th.GetResult(true);
@@ -79,7 +79,7 @@ namespace Xl {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private Task<TResult> GetResult(bool ensureMainThread) {
             var alreadyStarted = false;
-            var func = _func;
+            var func = Volatile.Read(ref _func);
             if (func == null) {
                 alreadyStarted = true;
             } else {
@@ -104,8 +104,8 @@ namespace Xl {
                     th._tcs.TrySetResult(result);
                 });
             }
-            // release the reference to let GC collect it and anything it captured
-            _func = null;
+            // release the reference to let GC collect it and anything it has captured
+            Volatile.Write(ref _func, null);
             return _tcs.Task;
         }
 
