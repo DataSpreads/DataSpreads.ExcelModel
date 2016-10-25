@@ -1,0 +1,34 @@
+{
+	"version": "0.1.0-alpha1",
+	"description": "Excel API using .NET types only and a safe wrapper for C/COM API calls",
+	"dependencies": {
+		"ExcelDna.Integration": "0.33.9",
+		"ExcelDna.Interop": "14.0.1"
+	},
+	"frameworks": {
+		"net451": {
+			"frameworkAssemblies": {
+				"System.Data": "",
+				"System.Xml": ""
+			}
+		}
+	},
+	"buildOptions": {
+		"define": [ "DEBUG", "TRACE" ]
+	},
+	"authors": [ "Victor Baybekov" ],
+	"copyright": "Copyright 2016",
+	"packOptions": {
+		"owners": [ "Victor Baybekov" ],
+		"summary": "Series and Panels for Reactive and Exploratory Analysis of Data Streams",
+		"repository": { "url": "https://github.com/DataSpreads/ExcelModel" },
+		"licenseUrl": "https://github.com/DataSpreads/ExcelModel/blob/master/LICENSE.txt",
+		"projectUrl": "https://github.com/DataSpreads/ExcelModel",
+		"tags": [
+			"Spreads",
+			"Data",
+			"Excel",
+			"DataSpreads"
+		]
+	}
+}
